@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Form, Modal } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 const PasswordForgetPage = () => (
     <div>
-        <PasswordForgetModal />
+        <PasswordForgetForm />
     </div>
 );
 
 const INITIAL_STATE = {
     email: '',
     error: null,
-    show: false,
-    setShow: false,
 };
 
 class PasswordForgetFormBase extends Component {
@@ -26,14 +24,6 @@ class PasswordForgetFormBase extends Component {
         this.state = { ...INITIAL_STATE };
     };
     
-    handleClose = () => {
-        setShow(false)
-    };
-    
-    handleShow = () => {
-        const { setShow } = this.state;
-        setShow(true);
-    };
 
     onSubmit = event => {
         const { email } = this.state;
@@ -57,16 +47,12 @@ class PasswordForgetFormBase extends Component {
     };
 
     render() {
-        const { email, error, show, setShow } = this.state;
+        const { email, error } = this.state;
 
         const isInvalid = email === '';
         return (
-            <Modal show={this.state.show} onHide={this.handleClose}>
-                <Modal.Header closebutton >
-                    <Modal.Title>Forgot Password</Modal.Title>
-                </Modal.Header>
-                <Modal.Body ></Modal.Body>
                 <div className="container">
+                <h2 className="top-margin">Forgot Password Form</h2>
                 <Form onSubmit = {this.onSubmit} >
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email Address</Form.Label>
@@ -77,25 +63,31 @@ class PasswordForgetFormBase extends Component {
                             onChange={this.onChange}
                             placeholder="Email address"
                         />
+                    <Form.Text className="text-muted" >
+                        Enter your account email, and we'll send you a reminder email. 
+                    </Form.Text>
                     </Form.Group>
-                    <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose} >
-                        Cancel
-                    </Button>
+
                     <Button disabled={isInvalid} variant="primary" type="submit" >
                         Submit
                     </Button>
 
                     {error && <p>{error.message} </p>}
-                    </Modal.Footer>
 
                 </Form>
                 </div>
-            </Modal>
-
-
-        )
+        );
     }
 }
 
-export default PasswordForget;
+const PasswordForgetLink = () => (
+    <p><Link to={ROUTES.PASSWORD_FORGET}>Forgot Password?</Link></p>
+)
+    
+
+
+export default PasswordForgetPage;
+
+const PasswordForgetForm = withFirebase(PasswordForgetFormBase);
+
+export { PasswordForgetForm, PasswordForgetLink };

@@ -6,11 +6,14 @@ import { Form, Button } from 'react-bootstrap';
 import { SignUpLink } from '../SignUp';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+import { PasswordForgetLink } from '../PasswordForget';
 
 const SignInPage = () => (
     <div className="container top-margin">
         <h1>Sign In</h1>
         <SignInForm />
+        <SignUpLink />
+        <PasswordForgetLink />
     </div>
 );
 
@@ -77,7 +80,7 @@ render() {
                     Sign In
                 </Button>
                 {error && <p>{error.message}</p>}
-                <SignUpLink />
+
             </Form>
         </div>
     )

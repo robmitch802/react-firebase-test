@@ -1,13 +1,14 @@
 import React from 'react';
-import { withFirebase } from '../Firebase';
+import { withAuthorization } from '../Session';
 
 
-
-const Home = () => (
+const HomePage = () => (
     <div className="container top-margin">
         <h1>Home</h1>
-        <p>This is the home page</p>
+        <p>This is the home page, accessible by every signed in user...</p>
     </div>
 );
 
-export default withFirebase(Home);
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(HomePage);
