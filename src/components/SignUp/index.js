@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
+import { withFirebase } from '../Firebase'
 
 import * as ROUTES from '../../constants/routes';
 
 const SignUpPage = () => (
     <div>
         <h1>Sign Up</h1>
-        <SignUpForm />
+        <SignUpForm /> 
     </div>
 );
 
@@ -19,7 +20,7 @@ const INITIAL_STATE = {
     error: null,
 }
 
-class SignupForm extends Component {
+class SignUpFormBase extends Component {
     constructor(props) {
         super(props);
 
@@ -28,8 +29,20 @@ class SignupForm extends Component {
         };
     };
 
-    onSubmit = event => {
+    onSubmit = (event) => {
+        const { username, email, passwordOne } = this.state;
 
+        this.props.firebase 
+            .doCreateUserWithEmailAndPassword(email, passwordOne)
+            .then(authUser => {
+                this.setState({ ...INITIAL_STATE });
+                this.props.history.push(ROUTES.HOME);
+            })
+            .catch(error => {
+                this.setState({ error });
+            })
+            console.log("Username Submitted")
+            event.preventDefault();
     };
 
     onChange = event => {
@@ -52,7 +65,8 @@ class SignupForm extends Component {
             username === '';
 
         return (
-
+            <div className="container" >
+            <h1>Sign Up Form</h1>
             <Form onSubmit={this.onSubmit} >
                 <Form.Group controlId="username" >
                     <Form.Label>Username</Form.Label>
@@ -104,6 +118,7 @@ class SignupForm extends Component {
                 {error && <p>{error.message}</p>}
 
             </Form>
+            </div>
         );
     }
 };
@@ -112,6 +127,8 @@ const SignUpLink = () => (
     <p>Don't have an account? <Link to={ROUTES.SIGN_UP} >Sign Up</Link></p>
 );
 
+const SignUpForm = withRouter(withFirebase(SignUpFormBase));
+
 export default SignUpPage;
 
-export { SignupForm, SignUpLink };
+export { SignUpForm, SignUpLink };
