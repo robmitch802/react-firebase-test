@@ -1,9 +1,17 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const SignOut = () => (
-    <div>
-        <h1>Sign Out</h1>
-    </div>
+import { withFirebase } from '../Firebase';
+
+const SignOutButton = ({firebase}) => (
+    <Button type="button" onClick={firebase.doSignOut} >
+        Sign Out
+    </Button>
 );
 
-export default SignOut;
+const SignOutLink = ({firebase}) => {
+    <Link onClick={firebase.doSignOut} >Sign Out</Link>
+}
+
+export default withFirebase(SignOutButton, SignOutLink);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import SignOutLink from '../SignOut';
 
 import * as ROUTES from '../../constants/routes';
 
@@ -21,6 +22,7 @@ const Navigation = () => (
                         <Link to={ROUTES.ACCOUNT} className="nav-link" >Account</Link>
                         <Link to={ROUTES.ADMIN} className="nav-link">Admin</Link>
                         <Link to={ROUTES.SIGN_IN}className="nav-link" >Sign In</Link>
+                        <SignOutLink />
                     </Nav> 
                 </Navbar.Collapse>
             </Navbar>
