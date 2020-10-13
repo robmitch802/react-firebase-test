@@ -41,7 +41,15 @@ class SignUpFormBase extends Component {
                     .set({
                         username,
                         email,
-                    });
+                    },
+                    function(error) {
+                        if (error) {
+                            console.log("Database write failed")
+                        } else {
+                            console.log("Data written successfully... ")
+                        }
+                    }
+                    );
             })
             .then(authUser => {
                 this.setState({ ...INITIAL_STATE });
