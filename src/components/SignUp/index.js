@@ -43,6 +43,7 @@ class SignUpFormBase extends Component {
                 this.setState({ error });
             })
             console.log("Username Submitted")
+            console.log("The email submitted is: " + this.state.email + this.state.password)
             event.preventDefault();
     };
 
